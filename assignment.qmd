@@ -43,9 +43,7 @@ Now Combine (stack) the two dataframes into one combined dataframe, so all the r
 
 ```{r}
 
-
-
-
+primary_voters_combined <- bind_rows(list(primary_dem, primary_rep))
 
 
 ```
@@ -60,8 +58,8 @@ To use clean_names() you apply it to your dataframe like:
 
 ```{r}
 
-
-
+primary_voters_combined <- primary_voters_combined %>%
+  clean_names()
 
 
 ```
@@ -80,10 +78,14 @@ Next use left_join() to join the two tables based on the unique combination of p
 
 ```{r}
 
+maryland_voters_and_precinct <- precinct_voting_locations %>%
+  left_join(primary_voters_combined, by = c("county_code" = "county_name")) 
 
 
 
-
+maryland_population %>% 
+  left_join(county_voters_2020, by="COUNTY") %>% 
+  nrow()
 
 ```
 
